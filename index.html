@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Grilded</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <meta charset="utf-8" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+        <style>
+            @font-face {
+            font-family: 'TazmanIsland';
+            src: url('source/Tazman-Island.ttf') format('truetype');
+        }
+           #muteButton {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            padding: 10px 15px;
+            background-color: rgba(212, 255, 252, 0.7);
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 20px;
+            font-family: 'TazmanIsland';
+        }
+        </style>    
+    </head>
+    <body>
+        <audio id="background-music" loop autoplay>
+            <source src="Music/Liminality.wav" type="audio/wav">
+        </audio>
+        <button id="muteButton">Mute</button>
+    <script src="opening.js"></script>
+
+    </body> 
+</html>             

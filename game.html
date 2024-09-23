@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/addons/p5.dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/addons/p5.sound.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/bmoren/p5.collide2D/p5.collide2d.min.js"></script>
+    <script src="https://unpkg.com/ml5@0.3.1/dist/ml5.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="utf-8" />
+    
+    <style>
+      @font-face {
+      font-family: 'TazmanIsland';
+      src: url('source/Tazman-Island.ttf') format('truetype');
+  }
+     #muteButton {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      padding: 10px 15px;
+      background-color: rgba(212, 255, 252, 0.7);
+      border: none;
+      border-radius: 7px;
+      cursor: pointer;
+      font-size: 20px;
+      font-family: 'TazmanIsland';
+  }
+  </style>
+  </head>
+  <body>
+    <script src="pawn.js"></script>
+    <script src="love.js"></script>
+    <script src="game.js"></script>
+    <script src="coin.js"></script>
+    
+    <audio id="background-music" loop>
+      <source src="Music/A Moon Walk.wav" type="audio/wav">
+     </audio>
+     <button id="muteButton">Mute</button>
+   
+  </body>
+</html> 

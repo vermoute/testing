@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Grilded</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <meta charset="utf-8" />    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+        <style>
+            @font-face {
+            font-family: 'TazmanIsland';
+            src: url('source/Tazman-Island.ttf') format('truetype');
+        }
+           #muteButton {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            padding: 10px 15px;
+            background-color: rgba(212, 255, 252, 0.7);
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 20px;    
+            font-family: 'TazmanIsland';
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+            cursor: none;
+            background-image: url('/source/game/Artwork_01.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            position: relative;
+        }
+        .curtain {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;        
+            height: 100%;
+            background-image: url('/source/curtain.png');
+            background-size: cover;         
+            background-repeat: no-repeat;
+            background-position: center;
+            z-index: 0;
+        }
+        .circle1 {
+            width: 803px;
+            height: 803px;
+            background-color: #00d5c5;
+            border-radius: 50%; 
+            position: absolute;
+            pointer-events: none;
+            mix-blend-mode: multiply;
+            z-index: 1;
+        }
+        .circle2 {
+            width: 803px;
+            height: 803px;  
+            background-color: #e51723;
+            border-radius: 50%;
+            position: absolute;
+            pointer-events: none;
+            mix-blend-mode: multiply;
+            display: none;
+            z-index: 1;
+        }
+        </style>
+    </head>
+    <body>
+        <audio id="background-music" loop autoplay>
+            <source src="Music/Aurora.wav" type="audio/wav">
+        </audio>
+        <button id="muteButton">Mute</button>
+        <div class="curtain"></div>
+        <div class="circle1"></div>
+        <div class="circle2"></div>
+
+        <script>
+            let backgroundMusic;
+            let muteButton;
+            let isMuted = false;
+            let showCircle1 = true;
+            let isGameOver = false;
+            const circle1 = document.querySelector('.circle1');
+            const circle2 = document.querySelector('.circle2');
+
+            function setup() {
+                // Initialize background music
+                backgroundMusic = document.getElementById("background-music");
+                backgroundMusic.volume = 0.5; // Set volume to 50%
+                playBackgroundMusic();
+
+                // Initialize mute button
+                muteButton = document.getElementById("muteButton");
+                muteButton.addEventListener("click", toggleMute);
+
+                // Set random background image
+                setRandomBackground();
+            }
+
+            function playBackgroundMusic() {
+                backgroundMusic.play().catch(error => {
+                    console.log("Autoplay prevented. Trying to autoplay again...");
+                    setTimeout(() => {
+                    playBackgroundMusic();
+                    }, 1000); // Retry after 1 second
+                });
+            }
+
+            function toggleMute() {
+                if (isMuted) {  
+                    backgroundMusic.volume = 0.5;
+                    muteButton.textContent = "Mute";  
+                } else {
+                    backgroundMusic.volume = 0;
+                    muteButton.textContent = "Unmute";
+                }
+                isMuted = !isMuted;
+            }
+
+            function setRandomBackground() {
+                const backgroundImages = [
+                    '/source/game/Artwork_01.png',
+                    '/source/game/Artwork_2.png',
+                    '/source/game/Artwork_3.png'
+                ];
+                const randomIndex = Math.floor(Math.random() * backgroundImages.length);
+                document.body.style.backgroundImage = `url(${backgroundImages[randomIndex]})`;
+                document.body.style.backgroundSize = 'cover';
+                document.body.style.backgroundRepeat = 'no-repeat';
+                document.body.style.backgroundPosition = 'center';
+            }
+
+            function redirectToGameOverPage() {
+                window.location.href = 'game.html';
+            }
+
+            // Auto-play music when the page loads
+            window.addEventListener('load', () => {
+                playBackgroundMusic();
+            });
+
+            let lastCircle1X = 0;
+            let lastCircle1Y = 0;
+            let lastCircle2X = 0;
+            let lastCircle2Y = 0;
+
+            function updateCirclePositions(event) {
+                if (showCircle1) {
+                    if (Math.abs(event.clientX - lastCircle1X) > 1 || Math.abs(event.clientY - lastCircle1Y) > 1) {
+                        circle1.style.left = `${event.clientX - 401.5}px`;
+                        circle1.style.top = `${event.clientY - 401.5}px`;
+                        lastCircle1X = event.clientX;
+                        lastCircle1Y = event.clientY;
+                    }
+                } else {
+                    if (Math.abs(event.clientX - lastCircle2X) > 1 || Math.abs(event.clientY - lastCircle2Y) > 1) {
+                        circle2.style.left = `${event.clientX - 401.5}px`;
+                        circle2.style.top = `${event.clientY - 401.5}px`;
+                        lastCircle2X = event.clientX;
+                        lastCircle2Y = event.clientY;
+                    }
+                }
+
+                if (isGameOver) {
+                    redirectToGameOverPage();
+                }
+            }
+
+            document.addEventListener('mousemove', updateCirclePositions);
+
+            document.addEventListener('keydown', (event) => {
+                if (event.key.toLowerCase() === 'c') {
+                    showCircle1 = !showCircle1;
+                    circle1.style.display = showCircle1 ? 'block' : 'none';
+                    circle2.style.display = showCircle1 ? 'none' : 'block';
+                } else if (event.key.toLowerCase() === ' ') {
+                    window.location.href = 'game.html';
+                }
+            });
+        </script>
+    </body> 
+</html>
